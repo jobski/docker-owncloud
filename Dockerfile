@@ -11,7 +11,7 @@ ENV REGENERATE_SSL_CERT false
 ENV START_APACHE true
 ENV START_MYSQL true
 ENV MAX_UPLOAD_SIZE 30G
-ENV TARGET_SUBDIR owncloud
+ENV TARGET_SUBDIR oc
 
 # remove info.php
 RUN rm /srv/http/info.php
@@ -43,7 +43,7 @@ RUN sed -i 's,<IfModule mod_php5.c>,<IfModule mod_php5.c>\nphp_value output_buff
 # setup Apache for owncloud
 RUN cp /etc/webapps/owncloud/apache.example.conf /etc/httpd/conf/extra/owncloud.conf
 RUN sed -i '/<VirtualHost/,/<\/VirtualHost>/d' /etc/httpd/conf/extra/owncloud.conf
-RUN sed -i 's,Alias /oc /usr/share/webapps/owncloud/,Alias /${TARGET_SUBDIR} /usr/share/webapps/owncloud/,g' /etc/httpd/conf/extra/owncloud.conf
+RUN sed -i 's,Alias /owncloud /usr/share/webapps/owncloud/,Alias /${TARGET_SUBDIR} /usr/share/webapps/owncloud/,g' /etc/httpd/conf/extra/owncloud.conf
 RUN sed -i 's,Options Indexes FollowSymLinks,Options -Indexes +FollowSymLinks,g' /etc/httpd/conf/httpd.conf
 RUN sed -i '$a Include conf/extra/owncloud.conf' /etc/httpd/conf/httpd.conf
 RUN chown -R http:http /usr/share/webapps/owncloud/
