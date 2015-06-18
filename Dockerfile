@@ -19,6 +19,9 @@ RUN rm /srv/http/info.php
 # to mount SAMBA shares: 
 RUN pacman -S --noconfirm --needed smbclient
 
+# install cron
+RUN pacman -S --noconfirm --needed cronie
+
 # for video file previews
 RUN pacman -S --noconfirm --needed ffmpeg
 
@@ -50,6 +53,9 @@ RUN chown -R http:http /usr/share/webapps/owncloud/
 
 # configure PHP open_basedir
 RUN sed -i 's,^open_basedir.*$,\0:/usr/share/webapps/owncloud/:/usr/share/webapps/owncloud/config/:/etc/webapps/owncloud/config/,g' /etc/php/php.ini
+
+# configure cron
+RUN echo "*/15 * * * * php -f /usr/share/webapps/owncloud/cron.php" >> /var/spool/cron/root
 
 # expose some important directories as volumes
 #VOLUME ["/usr/share/webapps/owncloud/data"]
