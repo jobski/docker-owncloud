@@ -57,8 +57,11 @@ RUN chown -R http:http /usr/share/webapps/owncloud/
 # configure PHP open_basedir
 RUN sed -i 's,^open_basedir.*$,\0:/usr/share/webapps/owncloud/:/usr/share/webapps/owncloud/config/:/etc/webapps/owncloud/config/,g' /etc/php/php.ini
 
+# configure PHP enable POSIX
+RUN sed -i 's/;extension=posix.so/extension=posix.so/g' /etc/php/php.ini
+
 # configure cron
-RUN echo "*/15 * * * * php -f /usr/share/webapps/owncloud/cron.php" >> /var/spool/cron/root
+RUN echo "*/15 * * * * sudo -u http php -f /usr/share/webapps/owncloud/cron.php" >> /var/spool/cron/root
 
 # expose some important directories as volumes
 #VOLUME ["/usr/share/webapps/owncloud/data"]
