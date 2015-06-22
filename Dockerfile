@@ -69,6 +69,5 @@ RUN chmod +x /root/cron.sh
 # place your ssl cert files in here. name them server.key and server.crt
 #VOLUME ["/https"]
 
-# start servers
-CMD ["/root/startServers.sh"]
+# start servers using cron.sh
 CMD ["/root/cron.sh"]
