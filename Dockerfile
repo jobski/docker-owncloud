@@ -19,12 +19,6 @@ RUN rm /srv/http/info.php
 # to mount SAMBA shares: 
 RUN pacman -S --noconfirm --needed smbclient
 
-# install cron
-RUN pacman -S --noconfirm --needed cronie
-
-# install vi
-RUN pacman -S --noconfirm --needed vi
-
 # install sudo
 RUN pacman -S --noconfirm --needed sudo
 
@@ -63,8 +57,9 @@ RUN sed -i 's,^open_basedir.*$,\0:/usr/share/webapps/owncloud/:/usr/share/webapp
 # configure PHP enable POSIX
 RUN sed -i 's/;extension=posix.so/extension=posix.so/g' /etc/php/php.ini
 
-# configure cron
-RUN echo "*/15 * * * * sudo -u http php -f /usr/share/webapps/owncloud/cron.php" >> /var/spool/cron/root
+# configure cron run
+ADD cron.sh /root/cron.sh
+RUN chmod +x /root/cron.sh
 
 # expose some important directories as volumes
 #VOLUME ["/usr/share/webapps/owncloud/data"]
@@ -76,3 +71,4 @@ RUN echo "*/15 * * * * sudo -u http php -f /usr/share/webapps/owncloud/cron.php"
 
 # start servers
 CMD ["/root/startServers.sh"]
+CMD ["/root/cron.sh"]
