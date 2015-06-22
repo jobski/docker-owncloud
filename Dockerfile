@@ -22,6 +22,9 @@ RUN pacman -S --noconfirm --needed smbclient
 # install cron
 RUN pacman -S --noconfirm --needed cronie
 
+# install vi
+RUN pacman -S --noconfirm --needed vi
+
 # install sudo
 RUN pacman -S --noconfirm --needed sudo
 
