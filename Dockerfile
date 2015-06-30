@@ -61,6 +61,10 @@ RUN sed -i 's/;extension=posix.so/extension=posix.so/g' /etc/php/php.ini
 ADD cron.sh /root/cron.sh
 RUN chmod +x /root/cron.sh
 
+# configure loop run
+ADD loop.sh /root/loop.sh
+RUN chmod +x /root/loop.sh
+
 # expose some important directories as volumes
 #VOLUME ["/usr/share/webapps/owncloud/data"]
 #VOLUME ["/etc/webapps/owncloud/config"]
