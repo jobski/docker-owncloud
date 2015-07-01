@@ -57,6 +57,9 @@ RUN sed -i 's,^open_basedir.*$,\0:/usr/share/webapps/owncloud/:/usr/share/webapp
 # configure PHP enable POSIX
 RUN sed -i 's/;extension=posix.so/extension=posix.so/g' /etc/php/php.ini
 
+# configure PHP memory limit
+RUN sed -i 's/memory_limit = 128M/memory_limit = 4096M/g' /etc/php/php.ini
+
 # configure cron run
 ADD cron.sh /root/cron.sh
 RUN chmod +x /root/cron.sh
